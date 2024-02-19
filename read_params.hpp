@@ -12,6 +12,7 @@ void read_cmd_line(int argc, char *argv[],
 		bool& pbc, // use periodic boundary conditions -switch
 		bool& two_p, // calculate 2-point correlator -switch
 		bool& ss_corr // calculate spin-spin correlator -switch
+		bool& SSH // calculate spin-spin correlator -switch
 		)
 {
 	char c;
@@ -25,6 +26,7 @@ void read_cmd_line(int argc, char *argv[],
 				break;
 			case 'p':
 				tp=atof(optarg);
+				SSH=true;
 				break;
 			case 'N':
 				N=atoi(optarg);
@@ -47,4 +49,6 @@ void read_cmd_line(int argc, char *argv[],
 				break;
 		}
 	}
+	/* Safety step to have a simple chian in case tp is not specified */
+	if(!SSH){tp=t;}
 }

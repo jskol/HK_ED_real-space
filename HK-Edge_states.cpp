@@ -39,16 +39,19 @@ using libcommute::static_indices::n;     // number operator
 
 int main(int argc, char* argv[]){
 	//assuming real hoppings within the cluster
-    	libcommute::expression<double, int , std::string> H;
+    libcommute::expression<double, int , std::string> H;
+	/* Hamiltonina parameters*/
 	int num_of_sites{0};
 	double U{0};
 	double t1{-1.},t2{-1.};	
 	bool Hubbard{false};
+	/* Flags */
 	bool single_p{false};
 	bool spin_spect{false};
 	bool pbc{false};
 	bool two_p{false};
 	bool spin_spin_corr{false};
+	
 	read_cmd_line(argc,argv,U,t1,t2,num_of_sites,Hubbard,single_p,spin_spect,pbc,two_p, spin_spin_corr);	
 	std::array<double,num_of_sublattices> t{t1,t2};
 	std::cout<< "Calculating:\n";
