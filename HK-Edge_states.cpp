@@ -51,8 +51,9 @@ int main(int argc, char* argv[]){
 	bool pbc{false};
 	bool two_p{false};
 	bool spin_spin_corr{false};
+	bool SSH{false};
 	
-	read_cmd_line(argc,argv,U,t1,t2,num_of_sites,Hubbard,single_p,spin_spect,pbc,two_p, spin_spin_corr);	
+	read_cmd_line(argc,argv,U,t1,t2,num_of_sites,Hubbard,single_p,spin_spect,pbc,two_p, spin_spin_corr,SSH);	
 	std::array<double,num_of_sublattices> t{t1,t2};
 	std::cout<< "Calculating:\n";
 	if(single_p){ std::cout << "-> 1p spectra\n";}

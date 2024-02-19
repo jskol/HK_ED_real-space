@@ -29,4 +29,4 @@ The implemented Hamiltonian parameters are :
 Example:
 To set up calulations for a N=8 chain with HK interaction U=5 hopping t=1 and calulating site-resolved spectral function use
 ./HK-Edge_states -U 5 -N 8 -A -t -1 -p -1
-The results will be in finite_system_N_8_t_-1_tp_-1_U_5.dat
+The results will be in "finite_system_N_8_t_-1_tp_-1_U_5.dat"
