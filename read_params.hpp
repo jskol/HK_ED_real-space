@@ -11,7 +11,7 @@ void read_cmd_line(int argc, char *argv[],
 		bool& calc_spin_spect, // calculate spin-spin excitations -switch
 		bool& pbc, // use periodic boundary conditions -switch
 		bool& two_p, // calculate 2-point correlator -switch
-		bool& ss_corr // calculate spin-spin correlator -switch
+		bool& ss_corr, // calculate spin-spin correlator -switch
 		bool& SSH // calculate spin-spin correlator -switch
 		)
 {
