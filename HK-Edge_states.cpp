@@ -30,6 +30,9 @@ using libcommute::static_indices::c;     // Destroy an electron
 using libcommute::static_indices::n;     // number operator
 #endif
 
+
+
+#include "Hamiltonian_params.hpp"
 #include "read_params.hpp"
 #include "gen_SSH_H.hpp"
 #include "Gen_GF.hpp"
@@ -41,6 +44,7 @@ int main(int argc, char* argv[]){
 	//assuming real hoppings within the cluster
     libcommute::expression<double, int , std::string> H;
 	/* Hamiltonina parameters*/
+	Hamiltonian_params H_params;
 	int num_of_sites{0};
 	double U{0};
 	double t1{-1.},t2{-1.};	
