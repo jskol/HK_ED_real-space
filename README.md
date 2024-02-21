@@ -11,6 +11,14 @@ In addition, to speed-up the calculation support for the following is available
 1. OpenMP (parallel programming) 
 
 ## How-to quick guide
+### Compilation
+1. Enter folder
+2. Create "build" (mkdir build)
+3. Enter "build"
+4. run cmake ( cmake ..)
+5. compile (make)
+
+
 The code in the current form allows to calculate multiple quntites using proper flags. These quatities and their flags in paranthesis:
 1. Single particle spectral function (-A)
 2. Local spin-excitation spectrum (-S)
@@ -25,6 +33,8 @@ The implemented Hamiltonian parameters are :
 2. hopping t (-t)
 3. second hopping tp, needed for SSH-type models (-p). By defult it will be the same as t
 4. chainlenght N (-N)
+
+
 
 Example:
 To set up calulations for a N=8 chain with HK interaction U=5 hopping t=1 and calulating site-resolved spectral function use
