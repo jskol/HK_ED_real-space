@@ -39,6 +39,8 @@ void save_to_file(
         name += "_t("+std::to_string(num_of_t)+")_"+std::to_string(t);
     }
     name += "_U_"+std::to_string(params.interaction_U);
+    if(abs(params.mag_field)> 0.){name += "_M_"+std::to_string(params.mag_field);}
+    if(abs(params.el_field)> 0.){name += "_V_"+std::to_string(params.el_field);}
     name += ".dat";
     file.open(name);
     for (const auto& res: GFs){
