@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/jskolimo/Tools/lambda-lanczos/include -isystem /usr/include/eigen3
 
-CXX_FLAGS = -Wall -Wextra -O3 -fopenmp
+CXX_FLAGS = -Wall -Wextra -g -fopenmp
 

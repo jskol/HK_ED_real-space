@@ -25,21 +25,20 @@ std::vector<std::vector<double>> colllect(const std::vector<std::vector<double>>
 void save_to_file(
     const std::vector<std::vector<double>>& GFs,
     const std::string& prefix,
-    const double U,
-    const std::array<double,2> t,
-    const int sys_size,
-    bool Hubbard,
-    bool pbc
+    const struct Hamiltonian_params& params   
     )
 {
     std::ofstream file;
     std::string name{"finite_system_"};
     name += prefix;
-    if(Hubbard){name += "_Hubbard";}
-    if(pbc){name += "_PBC_";}
-    name += "_N_"+std::to_string(sys_size);
-    name += "_t_"+std::to_string(t[0])+"_"+std::to_string(t[1]);
-    name += "_U_"+std::to_string(U);
+    if(params.Hubbard){name += "_Hubbard";}
+    if(params.pbc){name += "_PBC_";}
+    name += "_N_"+std::to_string(params.num_of_sites);
+    int num_of_t{0};
+	for(const auto t: params.hopping){
+        name += "_t("+std::to_string(num_of_t)+")_"+std::to_string(t);
+    }
+    name += "_U_"+std::to_string(params.interaction_U);
     name += ".dat";
     file.open(name);
     for (const auto& res: GFs){

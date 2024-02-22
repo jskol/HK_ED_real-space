@@ -1,15 +1,15 @@
 #include<vector>
 
 struct Hamiltonian_params{
-    int N{0};
-    double U{0.};
+    int num_of_sites {0};
+    double interaction_U{0.};
     double mag_field{0.};
     std::vector<double> hopping{0.};
+    bool k_dep{false};
     double k{0.};
     double el_field{0.};
     bool Hubbard{false};
     bool pbc{false};
-    bool k_dep{false};
 };
 
 struct measurments{
