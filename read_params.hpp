@@ -21,7 +21,7 @@ void read_cmd_line(int argc, char *argv[],
 		)
 {
 	char c;
-        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:")) != -1) {
+        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:k:")) != -1) {
 		switch (c){
 			case 'U':
 				params.interaction_U=atof(optarg);
@@ -57,6 +57,9 @@ void read_cmd_line(int argc, char *argv[],
 			case 'S':
 				flags.spin_spect=true;
 				break;
+			case 'k':
+				params.k=atof(optarg);
+				params.k_dep=true;
 		}
 	}
 	std::cout<< "Calculating:\n";
@@ -74,6 +77,9 @@ void read_cmd_line(int argc, char *argv[],
 	for(const auto t: params.hopping){
 		std::cout<< " t("<< num_of_t<< ")= " << t;
 		num_of_t++;
+	}
+	if(params.k_dep){
+		std::cout << "k-resolved calculation k=" << params.k <<std::endl;
 	}
 	std::cout << std::endl;
 	std::cout << " Magnetic field M=" << params.mag_field<< std::endl;

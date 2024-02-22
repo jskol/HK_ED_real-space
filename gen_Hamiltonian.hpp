@@ -26,6 +26,9 @@ libcommute::expression<C, int, std::string> gen_Ham(
 				double spin_sign=(spin == spins_set[0] ? 1. :-1.);
 				H += 0.5*spin_sign*params.mag_field*c_dag(site,spin)*c(site,spin);
 			}
+			if(params.k_dep){/*Adding k-dependence of a square lattice */
+				H += 2.*params.hopping[0]*cos(params.k)*c_dag(site,spin)*c(site,spin);
+			}
 		}
 		if(params.pbc){
 				H += params.hopping[(params.num_of_sites-1)%num_of_sublattices]*( c_dag(0,spin)*c(params.num_of_sites-1,spin)+ c_dag(params.num_of_sites-1,spin)*c(0,spin) );

@@ -47,61 +47,79 @@ int main(int argc, char* argv[]){
 	Hamiltonian_params H_params;
 	/* Flags */
 	measurments flags;
+	
+	/* Read parameters from the command line*/
 	read_cmd_line(argc,argv,H_params,flags);	
-	//std::array<double,num_of_sublattices> t{t1,t2};
+	/* Initiante single particle Hamiltonian*/
 	H=gen_Ham<double>(H_params);
+	/* Add interactions */
 	add_interaction(H,H_params);
-	/*std::cout << "Adding interaction U=" << H_params.interaction_U << std::endl;
-	std::cout << H << std::endl;
-	*/
+	
 	if(flags.single_p){	
-		auto tic = std::chrono::high_resolution_clock::now();
-		std::vector<std::vector<double>> GF_init{GF_peaks<double>(H,spins_set[0],H_params.num_of_sites)};
-		auto toc = std::chrono::high_resolution_clock::now();
-		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
-		std::cout << "Calculating GF took " << time.count() << " ms\n";
+		
+		for(const auto& spin :spins_set){
+			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			std::cout << "Calculating GF for spin "<< spin << ": ";
+			auto tic = std::chrono::high_resolution_clock::now();
+			std::vector<std::vector<double>> GF_init{GF_peaks<double>(H,spin,H_params.num_of_sites)};
+			auto toc = std::chrono::high_resolution_clock::now();
+			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
+			std::cout<<" DONE! Took " << time.count() << " ms\n";
+			
+			std::cout << "Sorting GF-peaks: "; 
+			sort_GF_peaks(GF_init);
+			std::cout<< "DONE\n";
 
-		std::cout << "Sorting GF-peaks: "; 
-		sort_GF_peaks(GF_init);
-		std::cout<< "DONE\n";
+			std::cout << "Binnning peaks:";
+			std::vector<std::vector<double>> GF=colllect(GF_init);
+			std::cout<< "DONE\n";
+			std::string extension{"Aw_spin_"+spin};
+			save_to_file(GF,extension,H_params);
+		}
 
-		std::cout << "Binnning peaks:";
-		std::vector<std::vector<double>> GF=colllect(GF_init);
-		std::cout<< "DONE\n";
-		save_to_file(GF,"",H_params);
-		//save_to_file(GF_init,"_unbinned_",U,t,num_of_sites,Hubbard,pbc);
 	}
 	if(flags.spin_spect){
-		auto tic = std::chrono::high_resolution_clock::now();
-		std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H,spins_set[0],H_params.num_of_sites)};
-		auto toc = std::chrono::high_resolution_clock::now();
-		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
-		std::cout << "Calculating of spin-spin took " << time.count() << " ms\n";
+		for(const auto& spin :spins_set){
+			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			std::cout << "Calculating of spin-spin for spin " << spin << " : ";
+			auto tic = std::chrono::high_resolution_clock::now();
+			std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H,spin,H_params.num_of_sites)};
+			auto toc = std::chrono::high_resolution_clock::now();
+			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
+			std::cout<< "DONE!, took " << time.count() << " ms\n";
 
-		std::cout << "Sorting spin-peaks: "; 
-		sort_GF_peaks(spin_spect_init);
-		std::cout<< "DONE\n";
+			std::cout << "Sorting spin-peaks: "; 
+			sort_GF_peaks(spin_spect_init);
+			std::cout<< "DONE\n";
 
-		std::cout << "Binnning peaks:";
-		std::vector<std::vector<double>> spin_spect=colllect(spin_spect_init);
-		std::cout<< "DONE\n";
-		save_to_file(spin_spect,"spin-spin",H_params);
+			std::cout << "Binnning peaks:";
+			std::vector<std::vector<double>> spin_spect=colllect(spin_spect_init);
+			std::cout<< "DONE\n";
+			std::string extension{ "spin-spin_spin_"+spin};
+			save_to_file(spin_spect,extension,H_params);
+		}
 	}
 	if(flags.two_p){
-		auto tic = std::chrono::high_resolution_clock::now();
-		std::vector<std::vector<double>> two_p_corr{two_p_Correlator(H,spins_set[0],H_params.num_of_sites)};
-		auto toc = std::chrono::high_resolution_clock::now();
-		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
-		std::cout << "Calculating of spin-spin took " << time.count() << " ms\n";
-		save_to_file(two_p_corr,"_2_p_correlator_",H_params);
+		for(const auto& spin :spins_set){
+			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			std::cout << "Calculating of 2-p correlator for spin " << spin << " : ";
+			auto tic = std::chrono::high_resolution_clock::now();
+			std::vector<std::vector<double>> two_p_corr{two_p_Correlator(H,spin,H_params.num_of_sites)};
+			auto toc = std::chrono::high_resolution_clock::now();
+			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
+			std::cout << "DONE! took " << time.count() << " ms\n";
+			std::string extension{"2_p_correlator_spin_"+spin};
+			save_to_file(two_p_corr,extension,H_params);
+		}
 	}
 	if(flags.spin_spin_corr){
+		std::cout << "Calculating of spin-spin: ";
 		auto tic = std::chrono::high_resolution_clock::now();
 		std::vector<std::vector<double>> SS_corr{spin_spin_Correlator(H,H_params.num_of_sites)};
 		auto toc = std::chrono::high_resolution_clock::now();
 		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
-		std::cout << "Calculating of spin-spin took " << time.count() << " ms\n";
-		save_to_file(SS_corr,"_s-s_correlator_",H_params);
+		std::cout<< "DONE! took " << time.count() << " ms\n";
+		save_to_file(SS_corr,"s-s_correlator_",H_params);
 	}		
 	return 0;
 }

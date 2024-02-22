@@ -25,6 +25,8 @@ The implemented Hamiltonian parameters are :
 2. hopping t (-t)
 3. second hopping tp, needed for SSH-type models (-p). By defult it will be the same as t
 4. chainlenght N (-N)
+5. Linear Voltage across the chain (-V)
+6. Zeeman Magnetic field (-M) 
 
 Example:
 To set up calulations for a N=8 chain with HK interaction U=5 hopping t=1 and calulating site-resolved spectral function use
