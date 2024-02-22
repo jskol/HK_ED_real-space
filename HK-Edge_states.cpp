@@ -58,7 +58,7 @@ int main(int argc, char* argv[]){
 	if(flags.single_p){	
 		
 		for(const auto& spin :spins_set){
-			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating GF for spin "<< spin << ": ";
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector<std::vector<double>> GF_init{GF_peaks<double>(H,spin,H_params.num_of_sites)};
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]){
 	}
 	if(flags.spin_spect){
 		for(const auto& spin :spins_set){
-			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating of spin-spin for spin " << spin << " : ";
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H,spin,H_params.num_of_sites)};
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]){
 	}
 	if(flags.two_p){
 		for(const auto& spin :spins_set){
-			if(abs(H_params.mag_field) >0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
+			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating of 2-p correlator for spin " << spin << " : ";
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector<std::vector<double>> two_p_corr{two_p_Correlator(H,spin,H_params.num_of_sites)};
