@@ -68,14 +68,15 @@ void read_cmd_line(int argc, char *argv[],
 	if(flags.two_p){std::cout << " Calculating 2-point correlation function ";}
 	if(flags.spin_spin_corr){std::cout << " Calculating spin-spin correlation function ";}
 	std::cout<< " with:\n";
-	std::cout<< " N= " << params.num_of_sites;
-	std::cout<< " U= " << params.interaction_U;
+	std::cout<< " N= " << params.num_of_sites << std::endl;
+	std::cout<< " U= " << params.interaction_U << std::endl;
 	int num_of_t{0};
 	for(const auto t: params.hopping){
 		std::cout<< " t("<< num_of_t<< ")= " << t;
 		num_of_t++;
 	}
-	std::cout << "Magnetic field M=" << params.mag_field;
-	std::cout << "Voltage V=" << params.el_field;
+	std::cout << std::endl;
+	std::cout << " Magnetic field M=" << params.mag_field<< std::endl;
+	std::cout << " Voltage V=" << params.el_field<< std::endl;
 	std::cout << std::endl;
 }

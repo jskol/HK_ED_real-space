@@ -18,9 +18,7 @@ libcommute::expression<C, int, std::string> gen_Ham(
                 	H += params.hopping[site%num_of_sublattices]*c_dag(site+1,spin)*c(site,spin);
             	}
         
-			if(params.pbc){
-				H += params.hopping[(params.num_of_sites-1)%num_of_sublattices]*( c_dag(0,spin)*c(params.num_of_sites-1,spin)+ c_dag(params.num_of_sites-1,spin)*c(0,spin) );
-			} 
+			
 			if(abs(params.el_field )>0.){
 				H += (params.el_field/(params.num_of_sites-1)*site- 0.5*params.el_field)*c_dag(site,spin)*c(site,spin);
 			}
@@ -29,6 +27,9 @@ libcommute::expression<C, int, std::string> gen_Ham(
 				H += 0.5*spin_sign*params.mag_field*c_dag(site,spin)*c(site,spin);
 			}
 		}
+		if(params.pbc){
+				H += params.hopping[(params.num_of_sites-1)%num_of_sublattices]*( c_dag(0,spin)*c(params.num_of_sites-1,spin)+ c_dag(params.num_of_sites-1,spin)*c(0,spin) );
+		} 
     }
 
     bool hermicity{ ( (conj(H) - H) == H_empty )? true :false};
