@@ -78,10 +78,11 @@ void read_cmd_line(int argc, char *argv[],
 		std::cout<< " t("<< num_of_t<< ")= " << t;
 		num_of_t++;
 	}
-	if(params.k_dep){
-		std::cout << "k-resolved calculation k=" << params.k <<std::endl;
-	}
 	std::cout << std::endl;
+	if(params.k_dep){
+		std::cout << " k-resolved calculation k=" << params.k <<std::endl;
+	}
+	
 	std::cout << " Magnetic field M=" << params.mag_field<< std::endl;
 	std::cout << " Voltage V=" << params.el_field<< std::endl;
 	std::cout << std::endl;
