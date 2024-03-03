@@ -21,7 +21,7 @@ void read_cmd_line(int argc, char *argv[],
 		)
 {
 	char c;
-        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:")) != -1) {
+        while ((c = getopt(argc, argv, "t:p:U:N:HASPEDV:M:")) != -1) {
 		switch (c){
 			case 'U':
 				params.interaction_U=atof(optarg);
@@ -57,6 +57,9 @@ void read_cmd_line(int argc, char *argv[],
 			case 'S':
 				flags.spin_spect=true;
 				break;
+			case 'D':
+				flags.electron_density=true;
+				break;	
 		}
 	}
 	std::cout<< "Calculating:\n";
@@ -67,6 +70,7 @@ void read_cmd_line(int argc, char *argv[],
 	if(params.pbc){std::cout<< " Using Periodic Boundary Condition (PBC) ";}
 	if(flags.two_p){std::cout << " Calculating 2-point correlation function ";}
 	if(flags.spin_spin_corr){std::cout << " Calculating spin-spin correlation function ";}
+	if(flags.electron_density){std::cout << " Calculating electron density ";}
 	std::cout<< " with:\n";
 	std::cout<< " N= " << params.num_of_sites << std::endl;
 	std::cout<< " U= " << params.interaction_U << std::endl;

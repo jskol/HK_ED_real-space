@@ -14,10 +14,11 @@
   message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
   set(CMAKE_CXX_STANDARD 17)
-  #set(libcommute_DIR ${libcommute_ROOT}/lib/cmake)
-  #set(libcommute_DIR ${HOME}/libcommute/lib/cmake)
+  #set(libcommute_DIR ${libcommute_ROOT}/C:/Users/avoga/Documents/libcommute.src/cmake)
+  set(libcommute_DIR /home/krystian/Dokumenty/libcommute.build/home/Dokumenty/lib/cmake/libcommute)
 
-  
+  #set (CMAKE_PREFIX_PATH ="C:/Users/avoga/Documents/libcommute.src/cmake")
+  #set (CMAKE_PREFIX_PATH "C:/Users/avoga/Documents/libcommute.build")
   find_package(OpenMP)
   
   # Import libcommute target
@@ -25,10 +26,11 @@
   
   # Import lambda lanczos
   add_library(lambda_lanczos INTERFACE)
-  target_include_directories(lambda_lanczos INTERFACE $ENV{HOME}/Tools/lambda-lanczos/include)
+  target_include_directories(lambda_lanczos INTERFACE /home/krystian/Dokumenty/lambda-lanczos/include/lambda_lanczos)
 
   # Import eigen
-  set(Eigen_DIR $ENV{HOME}/Tools/eigen/cmake)
+  #set(Eigen_DIR $ENV{HOME}/Tools/eigen/cmake)
+  set (CMAKE_PREFIX_PATH "C:/Users/avoga/Documents/eigen3.build")
   find_package (Eigen3 3.3 REQUIRED NO_MODULE)  
 
   # Build an executable called 'H-K' 

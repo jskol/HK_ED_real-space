@@ -1,5 +1,5 @@
 #include <Eigen/Dense>
-#include <lambda_lanczos/lambda_lanczos.hpp>
+#include </home/krystian/Dokumenty/lambda-lanczos/include/lambda_lanczos/lambda_lanczos.hpp>
 
 inline std::pair<std::vector<double>,std::vector<std::vector<double>>> eigen_sys_lanczos(
     const Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic>& Hmat,
