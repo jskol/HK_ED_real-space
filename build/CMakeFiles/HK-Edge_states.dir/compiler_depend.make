@@ -555,6 +555,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
   /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   /usr/include/linux/close_range.h \
   ../gen_Hamiltonian.hpp \
+  ../Kane-Mele_Hamiltonian.hpp \
+  ../Chain_Hamiltonian.hpp \
   ../Gen_GF.hpp \
   ../eigen_sys_lanczos.hpp \
   /home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos.hpp \
@@ -627,6 +629,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 
 /usr/include/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
 
+../Chain_Hamiltonian.hpp:
+
 /usr/include/c++/11/array:
 
 /usr/include/c++/11/tr1/beta_function.tcc:
@@ -662,6 +666,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
 /usr/include/c++/11/bits/postypes.h:
+
+../Kane-Mele_Hamiltonian.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
@@ -908,6 +914,10 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/eigen3/Eigen/src/Core/Product.h:
+
+../expectation_val.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
 /usr/include/alloca.h:
 
@@ -1608,10 +1618,6 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 /usr/include/c++/11/variant:
 
 /usr/local/include/libcommute/expression/factories.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/byteswap.h:
-
-../expectation_val.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 

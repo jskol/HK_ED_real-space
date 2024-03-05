@@ -10,6 +10,7 @@ struct Hamiltonian_params{
     double el_field{0.};
     bool Hubbard{false};
     bool pbc{false};
+    bool KM{false};
 };
 
 struct measurments{
