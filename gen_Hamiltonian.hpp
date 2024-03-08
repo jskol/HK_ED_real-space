@@ -12,7 +12,7 @@ libcommute::expression<C, int, std::string> gen_Ham(
     libcommute::expression<C, int , std::string> H,H_empty;
     H_empty.clear(); //reference empty Hamiltonian for hermicity checks
     
-	if(params.model=="chain"){H=gen_Chain_Hamiltonian<double>(params);}
+	if(params.model=="Chain"){H=gen_Chain_Hamiltonian<double>(params);}
 	else if (params.model=="Kane-Mele"){H=gen_Kane_Mele_Hamiltonian<double>(params);}
 	else if (params.model=="Haldane"){ H=gen_Haldane_Hamiltonian<double>(params);}
 	else if (params.model=="Graphene"){H=gen_Graphene_Hamiltonian<double>(params);}
