@@ -7,7 +7,7 @@ void read_cmd_line(int argc, char *argv[],
 		)
 {
 	char c;
-        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:k:m:D")) != -1) {
+        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:k:m:DR:")) != -1) {
 		switch (c){
 			case 'U':
 				params.interaction_U=atof(optarg);
@@ -55,10 +55,13 @@ void read_cmd_line(int argc, char *argv[],
 			case 'D':
 				flags.electron_density=true;
 				break;	
+			case 'R':
+				flags.retain_states=atoi(optarg);
+				break;
 		}
 	}
 	std::cout<< "Calculating "<< params.model <<" model :\n";
-	if(flags.single_p){ std::cout << "-> 1p spectra\n";}
+	if(flags.single_p){ std::cout << "-> 1p spectra (" << flags.retain_states << " max states kept)\n";}
 	if(flags.spin_spect){std::cout << "-> spin correlation function\n";}	
 	if(params.Hubbard){ std::cout <<" For Hubbard interaction ";}
 	else{std::cout << " For Hatsugai-Kohmoto interaction";}

@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
 			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating GF for spin "<< spin << ": ";
 			auto tic = std::chrono::high_resolution_clock::now();
-			std::vector<std::vector<double>> GF_init{GF_peaks<double>(H,spin,H_params.num_of_sites)};
+			std::vector<std::vector<double>> GF_init{GF_peaks<double>(H,spin,H_params.num_of_sites,flags.retain_states)};
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
 			std::cout<<" DONE! Took " << time.count() << " ms\n";
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]){
 			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating of spin-spin for spin " << spin << " : ";
 			auto tic = std::chrono::high_resolution_clock::now();
-			std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H,spin,H_params.num_of_sites)};
+			std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H,spin,H_params.num_of_sites,flags.retain_states)};
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
 			std::cout<< "DONE!, took " << time.count() << " ms\n";

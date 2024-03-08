@@ -20,4 +20,5 @@ struct measurments{
 	bool two_p{false};
 	bool spin_spin_corr{false};
     bool electron_density{false};
+    int retain_states{50};
 };
