@@ -11,6 +11,7 @@ struct Hamiltonian_params{
     bool Hubbard{false};
     bool pbc{false};
     bool KM{false};
+    std::string model{"Chain"};
 };
 
 struct measurments{
@@ -18,4 +19,5 @@ struct measurments{
 	bool spin_spect{false};
 	bool two_p{false};
 	bool spin_spin_corr{false};
+    bool electron_density{false};
 };

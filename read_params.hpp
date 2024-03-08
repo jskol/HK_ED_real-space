@@ -7,7 +7,7 @@ void read_cmd_line(int argc, char *argv[],
 		)
 {
 	char c;
-        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:k:K")) != -1) {
+        while ((c = getopt(argc, argv, "t:p:U:N:HASPEV:M:k:m:D")) != -1) {
 		switch (c){
 			case 'U':
 				params.interaction_U=atof(optarg);
@@ -47,20 +47,25 @@ void read_cmd_line(int argc, char *argv[],
 				params.k=atof(optarg);
 				params.k_dep=true;
 				break;
-			case 'K':
-				params.KM=true;
+
+			case 'm':
+				params.model=optarg;
 				break;
+
+			case 'D':
+				flags.electron_density=true;
+				break;	
 		}
 	}
-	std::cout<< "Calculating:\n";
+	std::cout<< "Calculating "<< params.model <<" model :\n";
 	if(flags.single_p){ std::cout << "-> 1p spectra\n";}
 	if(flags.spin_spect){std::cout << "-> spin correlation function\n";}	
-	if(params.Hubbard){ std::cout <<" For Hubbard model ";}
-	if(params.KM){std::cout << " Kane-Mele Hamiltonian ";}
-	else{std::cout << " For Hatsugai-Kohmoto ";}
+	if(params.Hubbard){ std::cout <<" For Hubbard interaction ";}
+	else{std::cout << " For Hatsugai-Kohmoto interaction";}
 	if(params.pbc){std::cout<< " Using Periodic Boundary Condition (PBC) ";}
 	if(flags.two_p){std::cout << " Calculating 2-point correlation function ";}
 	if(flags.spin_spin_corr){std::cout << " Calculating spin-spin correlation function ";}
+	if(flags.electron_density){std::cout << " Calculating electron density ";}
 	std::cout<< " with:\n";
 	std::cout<< " N= " << params.num_of_sites << std::endl;
 	std::cout<< " U= " << params.interaction_U << std::endl;

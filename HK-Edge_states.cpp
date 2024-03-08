@@ -121,5 +121,13 @@ int main(int argc, char* argv[]){
 		std::cout<< "DONE! took " << time.count() << " ms\n";
 		save_to_file(SS_corr,"s-s_correlator_",H_params);
 	}		
+	if(flags.electron_density){
+		auto tic = std::chrono::high_resolution_clock::now();
+		std::vector<std::vector<double>> El_dens{Electron_Density(H,H_params.num_of_sites)};
+		auto toc = std::chrono::high_resolution_clock::now();
+		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
+		std::cout << "Calculating of electron density took " << time.count() << " ms\n";
+		save_to_file(El_dens,"_electron_density_",H_params);
+	}
 	return 0;
 }

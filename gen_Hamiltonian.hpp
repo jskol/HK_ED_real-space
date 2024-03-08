@@ -1,5 +1,7 @@
 #include "Kane-Mele_Hamiltonian.hpp"
 #include "Chain_Hamiltonian.hpp"
+#include "Haldane_Hamiltonian.hpp"
+#include "Graphene_Hamiltonian.hpp"
 
 template<typename C>
 libcommute::expression<C, int, std::string> gen_Ham( 
@@ -9,12 +11,16 @@ libcommute::expression<C, int, std::string> gen_Ham(
     
     libcommute::expression<C, int , std::string> H,H_empty;
     H_empty.clear(); //reference empty Hamiltonian for hermicity checks
-    if(params.KM){
-		H=gen_Kane_Mele_Hamiltonian<double>(params);
-	}
+    
+	if(params.model=="chain"){H=gen_Chain_Hamiltonian<double>(params);}
+	else if (params.model=="Kane-Mele"){H=gen_Kane_Mele_Hamiltonian<double>(params);}
+	else if (params.model=="Haldane"){ H=gen_Haldane_Hamiltonian<double>(params);}
+	else if (params.model=="Graphene"){H=gen_Graphene_Hamiltonian<double>(params);}
 	else{
-		H=gen_Chain_Hamiltonian<double>(params);
+		std::cout << "Model "<< params.model << " is not supported!\n";
+		std::exit(EXIT_FAILURE);
 	}
+	
 
     for(auto spin :spins_set){
       	for(int site=0; site< params.num_of_sites; site++){

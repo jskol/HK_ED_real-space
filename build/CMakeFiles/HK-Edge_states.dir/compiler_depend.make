@@ -557,6 +557,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
   ../gen_Hamiltonian.hpp \
   ../Kane-Mele_Hamiltonian.hpp \
   ../Chain_Hamiltonian.hpp \
+  ../Haldane_Hamiltonian.hpp \
+  ../Graphene_Hamiltonian.hpp \
   ../Gen_GF.hpp \
   ../eigen_sys_lanczos.hpp \
   /home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos.hpp \
@@ -662,6 +664,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 /usr/include/c++/11/limits:
 
 /usr/include/c++/11/bits/specfun.h:
+
+../Graphene_Hamiltonian.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
@@ -1010,6 +1014,10 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 /usr/include/eigen3/Eigen/src/Core/NestByValue.h:
 
 /usr/include/c++/11/tr1/modified_bessel_func.tcc:
+
+/home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos_tridiagonal_impl.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -1657,10 +1665,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 
 ../gen_Hamiltonian.hpp:
 
+../Haldane_Hamiltonian.hpp:
+
 /usr/include/c++/11/random:
 
 /home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos_tridiagonal.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
-
-/home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos_tridiagonal_impl.hpp:

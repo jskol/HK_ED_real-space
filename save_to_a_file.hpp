@@ -29,9 +29,7 @@ void save_to_file(
     )
 {
     std::ofstream file;
-    std::string name;
-    if(params.KM){ name="Kane_mele_";}
-    else{ name="finite_system_" ;}
+    std::string name{params.model+"_"};
     name += prefix;
     if(params.Hubbard){name += "_Hubbard";}
     if(params.pbc){name += "_PBC_";}
