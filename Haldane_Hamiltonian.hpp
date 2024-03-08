@@ -5,9 +5,11 @@ libcommute::expression<C, int, std::string> gen_Haldane_Hamiltonian(
 {
     libcommute::expression<C, int , std::string> H;
     H.clear();
-    
+     /* Sanity check */
     assert(params.k_dep);
     assert(params.hopping.size()==2);
+    assert(params.num_of_sites%2 ==0 ); /* Has to have even number of sites since its a two-sublattice model*/
+
     int num_of_sublattices{int(params.hopping.size())};
     for(auto spin :spins_set){
         for(int sub=0; sub< params.num_of_sites; sub += num_of_sublattices) {
