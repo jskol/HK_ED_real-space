@@ -556,6 +556,10 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
  /usr/include/linux/close_range.h
  /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/gen_Hamiltonian.hpp
+ /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/Kane-Mele_Hamiltonian.hpp
+ /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/Chain_Hamiltonian.hpp
+ /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/Haldane_Hamiltonian.hpp
+ /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/Graphene_Hamiltonian.hpp
  /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/Gen_GF.hpp
  /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/eigen_sys_lanczos.hpp
  /home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos.hpp

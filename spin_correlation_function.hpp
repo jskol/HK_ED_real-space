@@ -22,7 +22,9 @@ template<typename T>
 std::vector<std::vector<double>> spin_peaks(
     const libcommute::expression<T,int, std::string>& H,
     const std::string spin,
-    const int sys_size)
+    const int sys_size,
+    const int retain_states
+    )
 {
 
     std::string opp_spin=(spin.compare(spins_set[0]) == 0 ? spins_set[1] : spins_set[0] );

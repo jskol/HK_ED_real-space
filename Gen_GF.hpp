@@ -14,7 +14,7 @@ using libcommute::static_indices::n;
 #include<omp.h>
 #include<algorithm>
 
-int retain_states{50};
+
 
 /*This function return vector of pairs (index of the invariant subspace, ground state degeneracy) */
 
@@ -33,6 +33,7 @@ std::vector<std::pair<libcommute::sv_index_type,int>> get_GS_subspace(const libc
     std::vector<std::tuple<libcommute::sv_index_type,double,int>> lowest_en(sp.n_subspaces()); /*Temporary storage of pairs serial number of a subspace and its lowest energy and the degeneracy,  */
     std::cout << "The calcuatlion will run on "  << omp_get_max_threads() << " threads\n";
     /* Start looping over the invariant subspaces*/
+    std::cout << "Looping over invariant subspaces \n";
     #pragma omp parallel shared(lowest_en)
     {
         #pragma omp for
@@ -51,9 +52,11 @@ std::vector<std::pair<libcommute::sv_index_type,int>> get_GS_subspace(const libc
                     if(eigen_sys.first[0]-GS_en < deg_crit ){
                         GS_en=eigen_sys.first[0];
                     }
-                    std::cout << "There is " << GS_deg << " states with the same energy\n";
                     std::tuple<libcommute::sv_index_type, double,int> res{subspace,eigen_sys.first[0],GS_deg};
                     lowest_en[subspace]=res;
+
+                    #pragma omp critical
+                    std::cout << "There is " << GS_deg << " states with the same energy\n";
                 }
                 else{
                     GS_deg++;
@@ -83,11 +86,12 @@ template<typename T>
 std::vector<std::vector<double>> GF_peaks(
     const libcommute::expression<T,int, std::string>& H,
     const std::string spin,
-    //const int site,
-    const int sys_size)
+    const int sys_size,
+    const int retain_states
+    )
 {
     /* Get the location of the Ground state(s)*/  
-    std::cout<< "Looking for the groundstate:";
+    std::cout<< "\nLooking for the groundstate:";
     auto tic = std::chrono::high_resolution_clock::now();
 	std::vector<std::pair<libcommute::sv_index_type,int>> gs_sub{get_GS_subspace(H)};
     auto toc=std::chrono::high_resolution_clock::now();
