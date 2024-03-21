@@ -29,7 +29,7 @@ The code in the current form allows to calculate multiple quntites using proper 
 New flag added to switch between various 1d or quasi 1d models (mixed representation) (-m)
 1. Default is a "Chain" with possibility of adding k-dependence in the non-interacting part (-k)
 2. Graphene ribbon (-m "Graphene"): need to add two sites (-t & -p) and k-dependence (-k)
-3. Haldane ribbon (-m "Halndane") : need to add two sites (-t & -p) and k-dependence (-k)
+3. Haldane ribbon (-m "Haldane") : need to add two sites (-t & -p) and k-dependence (-k)
 4. Kane-Mele ribbon (-m "Kane-Mele") -> Time-reversal symmetric partner of Haldane
 
 In addition, following modifications to the Hamiltonian can be switched on
