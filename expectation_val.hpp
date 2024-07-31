@@ -11,7 +11,7 @@ using libcommute::static_indices::n;
 #include<algorithm>
 
 template<typename T>
-std::vector<std::vector<double>> two_p_Correlator(
+std::vector<std::pair<double, std::vector<double>>> two_p_Correlator(
     const libcommute::expression<T,int, std::string>& H,
     std::string spin,
     const int sys_size
@@ -28,32 +28,33 @@ std::vector<std::vector<double>> two_p_Correlator(
     auto Hop = libcommute::make_loperator(H, hs);
     auto sp =libcommute::space_partition(Hop, hs);
     
-   /*Calculate Z factor*/
+    //Calculate Z factor
     double Z{0};
     for(const auto& gs_sub_ind: gs_sub){
-	Z += gs_sub_ind.second; //Add all the ground-state degeneracies
+	    Z += gs_sub_ind.second; //Add all the ground-state degeneracies
     }
      	   
     std::cout << "Running over the GS's\n";
     for(const auto& gs_sub_ind: gs_sub){
         std::vector<libcommute::sv_index_type> basis_states_in_GS_subspace = sp.subspace_basis(gs_sub_ind.first);
         Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> GS_Hmat= gen_Hmat_in_subspace(H,sp,gs_sub_ind.first);
-        std::pair<std::vector<double> ,std::vector< std::vector<double>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
+        std::pair<std::vector<double> ,std::vector< std::vector<T>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
         std::cout << "Looping over lowest energy states within a subspace\n";
         for(int mult=0; mult< gs_sub_ind.second; mult++){
-            std::vector<double> GS_in_H(hs.dim(),0.),res_vec_target(hs.dim(),0.);
+            std::vector<T> GS_in_H(hs.dim()),res_vec_target(hs.dim());
             for(auto i=0; i< (int)basis_states_in_GS_subspace.size(); i++)
             {
                 GS_in_H[basis_states_in_GS_subspace[i]] = GS_eigen_sys.second[mult][i];
             }
             for(int site_L=0; site_L< sys_size; site_L++){
                 for(int site_R=0; site_R< sys_size; site_R++){
-                    std::vector<T> res_vec(hs.dim(),0.);
+                    std::vector<T> res_vec(hs.dim());
                     auto lop=libcommute::make_loperator(c(site_L,spin)*c_dag(site_R,spin),hs);
                     lop(GS_in_H, res_vec);
                     double res_temp=0;
+                    cx_double one(1.,0.);
                     for(const auto& non_zero_el: basis_states_in_GS_subspace){
-                        res_temp += res_vec[non_zero_el]*GS_in_H[non_zero_el];
+                        res_temp += std::real(std::conj(one*GS_in_H[non_zero_el])*res_vec[non_zero_el]);
                     }
                     result[site_L][site_R] += res_temp/Z;
                 }
@@ -61,11 +62,23 @@ std::vector<std::vector<double>> two_p_Correlator(
 
         }
     }
-    return result;
+    /* Recast into format preffered by print_to_file*/
+    std::vector< std::pair< double,std::vector<double> > > res_print;
+    std::pair< double,std::vector<double> > temp;
+    for( int row=0; row< sys_size; row++){
+        temp.first=Z;
+        temp.second.clear();
+        for(int col=0; col < sys_size; col++){
+            temp.second.push_back(result[row][col]);
+        }
+        res_print.push_back(temp);    
+    }
+    return res_print;
 }
 
+
 template<typename T>
-std::vector<std::vector<double>> spin_spin_Correlator(
+std::vector< std::pair<double, std::vector<double> >> spin_spin_Correlator(
     const libcommute::expression<T,int, std::string>& H,
     const int sys_size
 ){
@@ -84,17 +97,17 @@ std::vector<std::vector<double>> spin_spin_Correlator(
    /*Calculate Z factor*/
     double Z{0};
     for(const auto& gs_sub_ind: gs_sub){
-	Z += gs_sub_ind.second; //Add all the ground-state degeneracies
+	    Z += gs_sub_ind.second; //Add all the ground-state degeneracies
     }
     std::cout << "Running over the GS's\n";
     for(const auto& gs_sub_ind: gs_sub){
         std::vector<libcommute::sv_index_type> basis_states_in_GS_subspace = sp.subspace_basis(gs_sub_ind.first);
         Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> GS_Hmat= gen_Hmat_in_subspace(H,sp,gs_sub_ind.first);
-        std::pair<std::vector<double> ,std::vector< std::vector<double>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
+        std::pair<std::vector<double> ,std::vector< std::vector<T>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
 
         std::cout << "Looping over lowest energy states within a subspace\n";
         for(int mult=0; mult< gs_sub_ind.second; mult++){
-            std::vector<double> GS_in_H(hs.dim(),0.),res_vec_target(hs.dim(),0.);
+            std::vector<T> GS_in_H(hs.dim()),res_vec_target(hs.dim());
             for(auto i=0; i< (int)basis_states_in_GS_subspace.size(); i++)
             {
                 GS_in_H[basis_states_in_GS_subspace[i]] = GS_eigen_sys.second[mult][i];
@@ -110,8 +123,9 @@ std::vector<std::vector<double>> spin_spin_Correlator(
                     auto lop=libcommute::make_loperator(spin_op,hs);
                     lop(GS_in_H, res_vec);
                     double res_temp=0;
+                    cx_double one(1.,0.);
                     for(const auto& non_zero_el: basis_states_in_GS_subspace){
-                        res_temp += res_vec[non_zero_el]*GS_in_H[non_zero_el];
+                        res_temp += std::real(std::conj(one*GS_in_H[non_zero_el])*res_vec[non_zero_el] );
                     }
                     result[site_L][site_R] += res_temp/Z;
                 }
@@ -119,12 +133,23 @@ std::vector<std::vector<double>> spin_spin_Correlator(
 
         }
     }
-    return result;
+    /* Recast into format preffered by print_to_file*/
+    std::vector< std::pair< double,std::vector<double> > > res_print;
+    std::pair< double,std::vector<double> > temp;
+    for( int row=0; row< sys_size; row++){
+        temp.first=Z;
+        temp.second.clear();
+        for(int col=0; col < sys_size; col++){
+            temp.second.push_back(result[row][col]);
+        }
+        res_print.push_back(temp);    
+    }
+    return res_print;
 }
 
 
 template<typename T>
-std::vector<double> Electron_Density(
+std::pair<double, std::vector<double>> Electron_Density(
     const libcommute::expression<T,int, std::string>& H,
     const int sys_size
 ){
@@ -144,7 +169,7 @@ std::vector<double> Electron_Density(
    /*Calculate Z factor*/
     double Z{0};
     for(const auto& gs_sub_ind: gs_sub){
-	Z += gs_sub_ind.second; //Add all the ground-state degeneracies
+	     Z+= gs_sub_ind.second; //Add all the ground-state degeneracies
     }
 
     std::vector<double> dens_vec(sys_size);
@@ -152,30 +177,27 @@ std::vector<double> Electron_Density(
     for(const auto& gs_sub_ind: gs_sub){
         std::vector<libcommute::sv_index_type> basis_states_in_GS_subspace = sp.subspace_basis(gs_sub_ind.first);
         Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> GS_Hmat= gen_Hmat_in_subspace(H,sp,gs_sub_ind.first);
-        std::pair<std::vector<double> ,std::vector< std::vector<double>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
+        std::pair<std::vector<double> ,std::vector< std::vector<T>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)};
 
         std::cout << "Looping over lowest energy states within a subspace\n";
         for(int mult=0; mult< gs_sub_ind.second; mult++){
-            std::vector<double> GS_in_H(hs.dim(),0.),res_vec_target(hs.dim(),0.);
+            std::vector<T> GS_in_H(hs.dim()),res_vec_target(hs.dim());
             for(auto i=0; i< (int)basis_states_in_GS_subspace.size(); i++)
             {
                 GS_in_H[basis_states_in_GS_subspace[i]] = GS_eigen_sys.second[mult][i];
             }
-
-
-
-
-        for(auto site=0; site< sys_size; site++){
-            auto n_op=libcommute::make_loperator(c_dag(site,spins_set[0])*c(site, spins_set[0])+c_dag(site,spins_set[1])*c(site, spins_set[1]),hs );
-            std::vector<double> res_vec(hs.dim());
-            n_op(GS_in_H,res_vec);
-            double dens{0.};
-            for(const auto& non_zero_el: basis_states_in_GS_subspace){
-                dens += GS_in_H[non_zero_el]*res_vec[non_zero_el];
+            for(auto site=0; site< sys_size; site++){
+                auto n_op=libcommute::make_loperator(c_dag(site,spins_set[0])*c(site, spins_set[0])+c_dag(site,spins_set[1])*c(site, spins_set[1]),hs );
+                std::vector<T> res_vec(hs.dim());
+                n_op(GS_in_H,res_vec);
+                double dens{0.};
+                cx_double one(1.,0.);
+                for(const auto& non_zero_el: basis_states_in_GS_subspace){
+                    dens += std::real(std::conj(one*GS_in_H[non_zero_el])*res_vec[non_zero_el]);
+                }
+                dens_vec[site] += dens/Z;
             }
-            dens_vec[site] += dens/Z;
-        }
         }
     }
-    return dens_vec;
+    return std::make_pair(Z, dens_vec);
 }

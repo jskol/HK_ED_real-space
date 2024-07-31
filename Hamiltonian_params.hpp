@@ -10,7 +10,7 @@ struct Hamiltonian_params{
     double el_field{0.};
     bool Hubbard{false};
     bool pbc{false};
-    bool KM{false};
+    bool cmplx{false}; // flag for additional phase factors due to gauge transformation
     std::string model{"Chain"};
 };
 
@@ -22,3 +22,5 @@ struct measurments{
     bool electron_density{false};
     int retain_states{50};
 };
+
+

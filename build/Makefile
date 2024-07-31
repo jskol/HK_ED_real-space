@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space
+CMAKE_SOURCE_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build
+CMAKE_BINARY_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build/CMakeFiles /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/build/CMakeFiles /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

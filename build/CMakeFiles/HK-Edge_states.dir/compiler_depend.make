@@ -559,6 +559,7 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
   ../Chain_Hamiltonian.hpp \
   ../Haldane_Hamiltonian.hpp \
   ../Graphene_Hamiltonian.hpp \
+  ../Hamiltonian_class.hpp \
   ../Gen_GF.hpp \
   ../eigen_sys_lanczos.hpp \
   /home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos.hpp \
@@ -580,6 +581,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 
 
 ../save_to_a_file.hpp:
+
+/home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos_tridiagonal.hpp:
 
 /usr/include/c++/11/bits/stl_heap.h:
 
@@ -1579,6 +1582,8 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 
 /usr/local/include/libcommute/expression/monomial.hpp:
 
+../Hamiltonian_class.hpp:
+
 /usr/include/c++/11/memory:
 
 /usr/include/c++/11/bits/stl_raw_storage_iter.h:
@@ -1668,5 +1673,3 @@ CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp \
 ../Haldane_Hamiltonian.hpp:
 
 /usr/include/c++/11/random:
-
-/home/jskolimo/Tools/lambda-lanczos/include/lambda_lanczos/lambda_lanczos_tridiagonal.hpp:
