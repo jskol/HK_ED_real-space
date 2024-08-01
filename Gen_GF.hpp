@@ -14,7 +14,7 @@ using libcommute::static_indices::n;
 #include<omp.h>
 #include<algorithm>
 
-
+/*  Major update -> merge subspaces added to calulate transittion elements  */
 
 /*This function return vector of pairs (index of the invariant subspace, ground state degeneracy) */
 
@@ -34,35 +34,33 @@ std::vector<std::pair<libcommute::sv_index_type,int>> get_GS_subspace(const libc
     std::cout << "The calcuatlion will run on "  << omp_get_max_threads() << " threads\n";
     /* Start looping over the invariant subspaces*/
     std::cout << "Looping over invariant subspaces \n";
-    /*#pragma omp parallel shared(lowest_en)
-    {
-        #pragma omp for
-    */    for(libcommute::sv_index_type subspace=0; subspace< sp.n_subspaces(); subspace++){       
-            Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> Hmat=gen_Hmat_in_subspace(H,sp,subspace);
-            /*Get the lowest energy state and its energy --> Using Lanczos*/
-            int GS_deg{1};
-            double E_spacing{0};
-            while(E_spacing < deg_crit){
-                std::pair<std::vector<double> ,std::vector< std::vector<T>>> eigen_sys {eigen_sys_lanczos(Hmat,GS_deg+1) };
-                if(eigen_sys.first[0]>GS_en+deg_crit){ break;} // skiping further  analysis of this subspace, its irrelevant
-                
-		        E_spacing=abs(eigen_sys.first[GS_deg]- eigen_sys.first[0]);
-                if(E_spacing >deg_crit){
-                    if(eigen_sys.first[0]-GS_en < deg_crit ){
-                        GS_en=eigen_sys.first[0];
-                    }
-                    std::tuple<libcommute::sv_index_type, double,int> res{subspace,eigen_sys.first[0],GS_deg};
-                    lowest_en[subspace]=res;
+   
+    for(libcommute::sv_index_type subspace=0; subspace< sp.n_subspaces(); subspace++){       
+        Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> Hmat=gen_Hmat_in_subspace(H,sp,subspace);
+        /*Get the lowest energy state and its energy --> Using Lanczos*/
+        int GS_deg{1};
+        double E_spacing{0};
+        while(E_spacing < deg_crit){
+            std::pair<std::vector<double> ,std::vector< std::vector<T>>> eigen_sys {eigen_sys_lanczos(Hmat,GS_deg+1) };
+            if(eigen_sys.first[0]>GS_en+deg_crit){ break;} // skiping further  analysis of this subspace, its irrelevant
+            
+            E_spacing=abs(eigen_sys.first[GS_deg]- eigen_sys.first[0]);
+            if(E_spacing >deg_crit){
+                if(eigen_sys.first[0]-GS_en < deg_crit ){
+                    GS_en=eigen_sys.first[0];
+                }
+                std::tuple<libcommute::sv_index_type, double,int> res{subspace,eigen_sys.first[0],GS_deg};
+                lowest_en[subspace]=res;
 
-                    /*#pragma omp critical*/
-                    std::cout << "There is " << GS_deg << " states with the same energy in subspace " << subspace <<"/"<< sp.n_subspaces()<<"\n";
-                }
-                else{
-                    GS_deg++;
-                }
+                /*#pragma omp critical*/
+                std::cout << "There is " << GS_deg << " states with the same energy in subspace " << subspace <<"/"<< sp.n_subspaces()<<"\n";
+            }
+            else{
+                GS_deg++;
             }
         }
-    /*}*/
+    }
+
     for(const auto& els: lowest_en){
         if( abs(std::get<1>(els)-GS_en) <deg_crit){
             std::pair<libcommute::sv_index_type,int> temp{std::get<0>(els),std::get<2>(els)};
@@ -117,18 +115,22 @@ std::vector<std::pair<double,std::vector<double>>> GF_peaks_diag(
     
     /* Get each Ground state*/
     std::cout << "Running over the GS's\n";
+    std::pair<std::vector<double> ,std::vector< std::vector<T>>> GS_eigen_sys; //Will hold Lanczos results 
     for(const auto& gs_sub_ind: gs_sub){
     
         std::vector<libcommute::sv_index_type> basis_states_in_GS_subspace = sp.subspace_basis(gs_sub_ind.first);
+        GS_eigen_sys.first.clear();
+        GS_eigen_sys.second.clear();
         Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> GS_Hmat= gen_Hmat_in_subspace(H,sp,gs_sub_ind.first);
         std::pair<std::vector<double> ,std::vector< std::vector<T>>> GS_eigen_sys{eigen_sys_lanczos(GS_Hmat,gs_sub_ind.second)}; // Eigen energies and generic (type T) eigenvectors
+        GS_Hmat.resize(0,0);
         double GS_en{GS_eigen_sys.first[0]};
     
         // Loop over the degenerate GS's within a certain subspace
         std::cout << "Looping over the lowest energy states within a subspace\n";
         for(int mult=0; mult< gs_sub_ind.second; mult++){
             //for(int mult=0; mult<1; mult++){
-            std::vector<T> GS_in_H(hs.dim()),res_vec_target(hs.dim());
+            std::vector<T> GS_in_H(hs.dim());
             // Create a GS vector
 	        for(auto i=0; i< (int)basis_states_in_GS_subspace.size(); i++)
             {
@@ -166,6 +168,8 @@ std::vector<std::pair<double,std::vector<double>>> GF_peaks_diag(
                 /* Find eigen-states in a given subspace */
                 std::vector<libcommute::sv_index_type> basis_states_in_subspace_n = sp.subspace_basis(sp_it);
                 auto sp_dim = (int)basis_states_in_subspace_n.size();
+                
+                
                 Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> Hmat=gen_Hmat_in_subspace(H,sp,sp_it);
                 int n_states=(sp_dim < retain_states ? sp_dim : retain_states); /* Save only $retain_states lowest energy states */
                 
@@ -175,8 +179,10 @@ std::vector<std::pair<double,std::vector<double>>> GF_peaks_diag(
                 
                 /* Get eigenvectors of the excited subspace*/
                 diag_n=eigen_sys_lanczos(Hmat,n_states);
-                /*Store the results for parallelization*/
-            
+
+                /*Empty the matrix Hmat*/
+                Hmat.resize(0,0);
+
                 /* Vector storing pairs of exciation energy and its probablity from GS to each excited state */
                 std::vector<std::pair<double, std::vector<double>>> res_temp;
                 res_temp.clear();
