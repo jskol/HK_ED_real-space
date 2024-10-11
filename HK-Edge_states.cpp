@@ -85,12 +85,18 @@ int main(int argc, char* argv[]){
 		}
 
 	}
-	/*if(flags.spin_spect){
+	if(flags.spin_spect){
 		for(const auto& spin :spins_set){
 			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin
 			std::cout << "Calculating of spin-spin for spin " << spin << " : ";
 			auto tic = std::chrono::high_resolution_clock::now();
-			std::vector<std::vector<double>> spin_spect_init{spin_peaks<double>(H.real,spin,H_params.num_of_sites,flags.retain_states)};
+			std::vector<std::pair<double,std::vector<double>>> spin_spect_init;
+			if(H_params.cmplx == true){
+				spin_spect_init=spin_peaks(H.cmplx,H_params,spin,flags.retain_states);
+			}
+			else{
+				spin_spect_init=spin_peaks(H.real,H_params,spin,flags.retain_states);
+			}
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
 			std::cout<< "DONE!, took " << time.count() << " ms\n";
@@ -100,13 +106,13 @@ int main(int argc, char* argv[]){
 			std::cout<< "DONE\n";
 
 			std::cout << "Binnning peaks:";
-			std::vector<std::vector<double>> spin_spect=colllect(spin_spect_init);
+			std::vector< std::pair< double, std::vector<double>> > spin_spect=colllect(spin_spect_init);
 			std::cout<< "DONE\n";
 			std::string extension{ "spin-spin_spin_"+spin};
 			save_to_file(spin_spect,extension,H_params);
 		}
 	}
-	*/
+	
 	if(flags.two_p){
 		for(const auto& spin :spins_set){
 			if(abs(H_params.mag_field) == 0. && spin == spins_set[1]){continue;} // Without magenetic field do only one spin

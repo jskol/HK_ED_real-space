@@ -77,7 +77,6 @@ std::vector<std::pair<libcommute::sv_index_type,int>> get_GS_subspace(const libc
 
 
 /* Find degeneracy of the ground state !!*/
-
 /*
     This function returns peaks of the Greens function 
     pair consists of the energy with respect to the GS
@@ -106,6 +105,14 @@ std::vector<std::pair<double,std::vector<double>>> GF_peaks_diag(
     auto Hop = libcommute::make_loperator(H, hs);
     
     auto sp =libcommute::space_partition(Hop, hs);
+    std::vector<std::pair<libcommute::matrix_elements_map<double>,libcommute::matrix_elements_map<double>>> transitions;
+    for(int site=0; site<params.num_of_sites;site++){
+         auto c_dag_lop=libcommute::make_loperator(1.*c_dag(site,spin),hs);
+         auto c_lop=libcommute::make_loperator(1.*c(site,spin),hs);
+         auto temp_map=sp.merge_subspaces(c_dag_lop,c_lop,hs,true);
+         transitions.push_back(temp_map);
+    }
+
     
     /*Calculate Z factor - T=0 limit assumed*/
     double Z{0};

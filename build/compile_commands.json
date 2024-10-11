@@ -1,7 +1,7 @@
 [
 {
-  "directory": "/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/build",
-  "command": "/usr/bin/c++  -I/home/jskolimo/Tools/lambda-lanczos/include -isystem /usr/include/eigen3 -Wall -Wextra -g -fopenmp -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -c /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/HK-Edge_states.cpp",
-  "file": "/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-2/HK-Edge_states.cpp"
+  "directory": "/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build",
+  "command": "/usr/bin/c++  -I/home/jskolimo/Tools/lambda-lanczos/include -isystem /usr/include/eigen3 -Wall -Wextra -g -fopenmp -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -c /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/HK-Edge_states.cpp",
+  "file": "/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/HK-Edge_states.cpp"
 }
 ]
