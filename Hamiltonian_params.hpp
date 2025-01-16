@@ -5,7 +5,7 @@ struct Hamiltonian_params{
     int num_of_sites {0};
     double interaction_U{0.}; // Interaction strenght 
     double mag_field{0.};
-    std::vector<double> hopping{0.};
+    std::vector<double> hopping{0.}; // vector of allowed hoppings 
     bool k_dep{false}; // Do we have k-dependence ? 
     double k{0.};
     double el_field{0.};
