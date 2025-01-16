@@ -1,3 +1,8 @@
+/*
+Routines for calculating the expectation values
+(static quantities)
+*/
+
 #include<vector>
 
 #include <libcommute/loperator/state_vector_eigen3.hpp>
@@ -18,7 +23,7 @@ std::vector<std::pair<double, std::vector<double>>> two_p_Correlator(
 ){
     std::vector<std::vector<double>> result(sys_size ,std::vector<double>(sys_size)); //inititate with a fixed size
     std::cout<< "Looking for the groundstate:";
-    auto tic = std::chrono::high_resolution_clock::now();
+    auto tic = std::chrono::high_resolution_clock::now(); //Timing
 	std::vector<std::pair<libcommute::sv_index_type,int>> gs_sub{get_GS_subspace(H)};
     auto toc=std::chrono::high_resolution_clock::now();
     auto time= std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
@@ -28,7 +33,7 @@ std::vector<std::pair<double, std::vector<double>>> two_p_Correlator(
     auto Hop = libcommute::make_loperator(H, hs);
     auto sp =libcommute::space_partition(Hop, hs);
     
-    //Calculate Z factor
+    //Calculate Z factor-> Ground state degeneracy if T is (almost) zero
     double Z{0};
     for(const auto& gs_sub_ind: gs_sub){
 	    Z += gs_sub_ind.second; //Add all the ground-state degeneracies
