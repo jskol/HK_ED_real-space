@@ -1,3 +1,0 @@
-/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles/HK-Edge_states.dir
-/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles/edit_cache.dir
-/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles/rebuild_cache.dir
