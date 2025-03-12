@@ -2,14 +2,16 @@
 #include<vector>
 #include<array>
 
-std::vector<std::vector<double>> colllect(const std::vector<std::vector<double>>& source){
-    std::vector<std::vector<double>> res;
-    std::vector<double> res_temp(source[0].size(),0.);
-    res_temp[0]=source[0][0];
+std::vector< std::pair< double,std::vector<double> > > colllect(const std::vector<std::pair< double,std::vector<double> > >& source){
+    std::vector<std::pair< double,std::vector<double> >> res;
+    std::pair< double,std::vector<double> > res_temp;
+    res_temp.first=source[0].first;
+    res_temp.second.resize(source[0].second.size());
+
     for(const auto& el: source){
-        if(abs(el[0]-res_temp[0]) <1e-8){
-            for(auto i=1; i<(int)el.size();i++){
-                res_temp[i] += el[i];
+        if(abs(el.first-res_temp.first) < 1e-8){
+            for(auto i=0; i<(int)el.second.size();i++){
+                res_temp.second[i] += el.second[i];
             }
         }
         else{
@@ -23,7 +25,7 @@ std::vector<std::vector<double>> colllect(const std::vector<std::vector<double>>
 
 
 void save_to_file(
-    const std::vector<std::vector<double>>& GFs,
+    const std::vector<std::pair< double,std::vector<double> > >& GFs,
     const std::string& prefix,
     const struct Hamiltonian_params& params   
     )
@@ -45,7 +47,8 @@ void save_to_file(
     name += ".dat";
     file.open(name);
     for (const auto& res: GFs){
-        for (const auto& els: res){
+        file<< res.first << " ";
+        for (const auto& els: res.second){
             file << els << " ";
         }
         file << "\n";

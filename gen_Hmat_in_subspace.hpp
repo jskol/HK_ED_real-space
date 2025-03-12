@@ -23,7 +23,7 @@ Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> gen_Hmat_in_subspace(
     std::vector<T> psi(sp_dim), phi(sp_dim);
     Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic> Hmat(sp_dim,sp_dim);
     for(auto sp_el=0; sp_el < sp_dim; sp_el++){
-        std::vector<double> psi(sp_dim), phi(sp_dim);
+        std::vector<T> psi(sp_dim), phi(sp_dim);
         psi[sp_el]=1;
         auto psi_view = mapper.make_const_view(psi);
         auto phi_view = mapper.make_view(phi);       

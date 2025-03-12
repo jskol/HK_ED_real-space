@@ -57,4 +57,4 @@ The results will be in "finite_system_N_8_t_-1_tp_-1_U_5.dat"
 
 
 #Contributors:
-J. S, K. J.
+J. S, K. J., C.M.Z.

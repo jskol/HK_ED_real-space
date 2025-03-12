@@ -50,6 +50,13 @@ void read_cmd_line(int argc, char *argv[],
 
 			case 'm':
 				params.model=optarg;
+				if(
+					params.model == "Kane-Mele" ||
+					params.model== "Haldane" ||
+					params.model== "Graphene"					
+					){
+						params.cmplx=true;
+					}
 				break;
 
 			case 'D':
@@ -65,6 +72,7 @@ void read_cmd_line(int argc, char *argv[],
 	if(flags.spin_spect){std::cout << "-> spin correlation function\n";}	
 	if(params.Hubbard){ std::cout <<" For Hubbard interaction ";}
 	else{std::cout << " For Hatsugai-Kohmoto interaction";}
+	if(params.cmplx) {std::cout << " Considering a complex Hamiltonian";}
 	if(params.pbc){std::cout<< " Using Periodic Boundary Condition (PBC) ";}
 	if(flags.two_p){std::cout << " Calculating 2-point correlation function ";}
 	if(flags.spin_spin_corr){std::cout << " Calculating spin-spin correlation function ";}

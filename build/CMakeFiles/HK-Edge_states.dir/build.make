@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space
+CMAKE_SOURCE_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build
+CMAKE_BINARY_DIR = /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/HK-Edge_states.dir/depend.make
@@ -72,16 +72,16 @@ include CMakeFiles/HK-Edge_states.dir/flags.make
 CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: CMakeFiles/HK-Edge_states.dir/flags.make
 CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: ../HK-Edge_states.cpp
 CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o: CMakeFiles/HK-Edge_states.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -MF CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o.d -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -c /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/HK-Edge_states.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -MF CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o.d -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.o -c /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/HK-Edge_states.cpp
 
 CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/HK-Edge_states.cpp > CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/HK-Edge_states.cpp > CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.i
 
 CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/HK-Edge_states.cpp -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/HK-Edge_states.cpp -o CMakeFiles/HK-Edge_states.dir/HK-Edge_states.cpp.s
 
 # Object files for target HK-Edge_states
 HK__Edge_states_OBJECTS = \
@@ -95,7 +95,7 @@ HK-Edge_states: CMakeFiles/HK-Edge_states.dir/build.make
 HK-Edge_states: /usr/lib/gcc/x86_64-linux-gnu/11/libgomp.so
 HK-Edge_states: /usr/lib/x86_64-linux-gnu/libpthread.a
 HK-Edge_states: CMakeFiles/HK-Edge_states.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable HK-Edge_states"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable HK-Edge_states"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/HK-Edge_states.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -107,6 +107,6 @@ CMakeFiles/HK-Edge_states.dir/clean:
 .PHONY : CMakeFiles/HK-Edge_states.dir/clean
 
 CMakeFiles/HK-Edge_states.dir/depend:
-	cd /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/Adding_stuct_holding_params/HK_ED_real-space/build/CMakeFiles/HK-Edge_states.dir/DependInfo.cmake --color=$(COLOR)
+	cd /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3 /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3 /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build /media/jskolimo/4edad5ef-c16f-4992-ba69-bdf34a31f67a/Calculations/HK_ED_versions/HK_ED_real-space-3/build/CMakeFiles/HK-Edge_states.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/HK-Edge_states.dir/depend
 
