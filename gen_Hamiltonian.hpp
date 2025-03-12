@@ -137,6 +137,34 @@ libcommute::static_indices::expr_real<int,std::string> H_interaction_real(
 }
 
 
+
+cx_double inetraction_phase_factor(const struct Hamiltonian_params& params, const int site_up, const int site_do, const int Delta){
+	// Sanity checks
+	assert(site_up <params.num_of_sites);
+	assert(site_do < params.num_of_sites);
+
+	cx_double phase(1.,0.);
+	if( (((int)site_up / 2)%2 ==0 && (int)site_up%2 == 1) || 
+		(((int)site_up / 2)%2 ==1 && (int)site_up%2 == 0) 
+	){ phase = phase*exp(-I*0.5*params.k);}
+
+	int ind2{site_up+Delta};
+	if( (((int)ind2/2)%2 ==0 && (int)ind2%2 == 1) || 
+		(((int)ind2/2)%2 ==1 && (int)ind2%2 == 0) 
+	){ phase = phase*exp(I*0.5*params.k);}
+
+	if( (((int)site_do / 2)%2 ==0 && (int)site_do%2 == 1) || 
+		(((int)site_do / 2)%2 ==1 && (int)site_do%2 == 0) 
+	){ phase = phase*exp(-I*0.5*params.k);}
+
+	int ind4{site_do-Delta};
+	if( (((int)ind4/2)%2 ==0 && (int)ind4%2 == 1) || 
+		(((int)ind4/2)%2 ==1 && (int)ind4%2 == 0) 
+	){ phase = phase*exp(I*0.5*params.k);}
+	return phase;
+}
+
+
 libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 	const struct Hamiltonian_params& params
     )
@@ -176,30 +204,7 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 							for(int site_do=0; site_do < params.num_of_sites; site_do++){
 								if(site_do-Delta >= 0 && site_do-Delta < params.num_of_sites){
 									/* Calculating the overall phase */								
-									cx_double phase(1.,0.);
-									if( (((int)site_up / 2)%2 ==0 && (int)site_up%2 == 1) || 
-									(((int)site_up / 2)%2 ==1 && (int)site_up%2 == 0) 
-									){ phase = phase*exp(-I*0.5*params.k);}
-
-									int ind2{site_up+Delta};
-									if( (((int)ind2/2)%2 ==0 && (int)ind2%2 == 1) || 
-									(((int)ind2/2)%2 ==1 && (int)ind2%2 == 0) 
-									){ phase = phase*exp(I*0.5*params.k);}
-
-									if( (((int)site_do / 2)%2 ==0 && (int)site_do%2 == 1) || 
-									(((int)site_do / 2)%2 ==1 && (int)site_do%2 == 0) 
-									){ phase = phase*exp(-I*0.5*params.k);}
-
-									int ind4{site_do-Delta};
-									if( (((int)ind4/2)%2 ==0 && (int)ind4%2 == 1) || 
-									(((int)ind4/2)%2 ==1 && (int)ind4%2 == 0) 
-									){ phase = phase*exp(I*0.5*params.k);}
-
-									std::cout << "H_int for : (" << site_up;
-									std::cout <<  " , " << ind2;
-									std::cout <<  " , " << site_do;
-									std::cout <<  " , " << ind4 ;
-									std::cout <<  ") the phase factor is " << phase << "\n"; 
+									cx_double phase=inetraction_phase_factor(params,site_up,site_do,Delta);
 									H_int = H_int + (0.5*params.interaction_U/params.num_of_sites)*phase
 									    *c_dag(site_up,spins_set[spin_ind])
 									    *c((site_up+Delta+params.num_of_sites)%params.num_of_sites,spins_set[spin_ind])
@@ -218,29 +223,12 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 					for(auto site_up=0; site_up < params.num_of_sites; site_up++){
 						for(auto Delta=-site_up; Delta < params.num_of_sites-site_up; Delta++){
 							for(auto site_do=0; site_do < params.num_of_sites; site_do++){
-								cx_double phase(1.,0.);
-								if( (((int)site_up / 2)%2 ==0 && (int)site_up%2 == 1) || 
-								(((int)site_up / 2)%2 ==1 && (int)site_up%2 == 0) 
-								){ phase = phase*exp(-I*0.5*params.k);}
-
-								int ind2{site_up+Delta};
-								if( (((int)ind2/2)%2 ==0 && (int)ind2%2 == 1) || 
-								(((int)ind2/2)%2 ==1 && (int)ind2%2 == 0) 
-								){ phase = phase*exp(I*0.5*params.k);}
-
-								if( (((int)site_do / 2)%2 ==0 && (int)site_do%2 == 1) || 
-								(((int)site_do / 2)%2 ==1 && (int)site_do%2 == 0) 
-								){ phase = phase*exp(-I*0.5*params.k);}
-
-								int ind4{site_do-Delta};
-								if( (((int)ind4/2)%2 ==0 && (int)ind4%2 == 1) || 
-								(((int)ind4/2)%2 ==1 && (int)ind4%2 == 0) 
-								){ phase = phase*exp(I*0.5*params.k);}
-								H_int =H_int +(0.5*params.interaction_U/params.num_of_sites)*one
+								cx_double phase=inetraction_phase_factor(params,site_up,site_do,Delta);
+								H_int =H_int +(0.5*params.interaction_U/params.num_of_sites)*phase
 									*c_dag(site_up,spins_set[spin_ind])
-									*c(ind2,spins_set[spin_ind])
+									*c(site_up+Delta,spins_set[spin_ind])
 									*c_dag(site_do,spins_set[(spin_ind+1)%(int)spins_set.size()])
-									*c(ind4,spins_set[(spin_ind+1)%(int)spins_set.size()]);
+									*c(site_do-Delta,spins_set[(spin_ind+1)%(int)spins_set.size()]);
 
 							}
 						}
