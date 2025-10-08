@@ -54,8 +54,8 @@ int main(int argc, char* argv[]){
 	read_cmd_line(argc,argv,H_params,flags);	
 	
 	/* Initiante single particle Hamiltonian*/
-	Hamiltonian H(H_params);
-
+	//Hamiltonian H(H_params);
+	
 	if(flags.single_p){	
 		
 		for(const auto& spin :spins_set){
@@ -64,10 +64,12 @@ int main(int argc, char* argv[]){
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector< std::pair<double,std::vector<double> > > GF_init;
 			if(H_params.cmplx == true){
-				GF_init = GF_peaks_diag(H.cmplx,H_params,spin,flags.retain_states);
+				Hamiltonian<cx_double> H(H_params); // Use the complex Hamiltonian
+				GF_init = GF_peaks_diag(H.H,H_params,spin,flags.retain_states);
 			}
 			else{
-				GF_init = GF_peaks_diag(H.real, H_params,spin,flags.retain_states);				
+				Hamiltonian<double> H(H_params);
+				GF_init = GF_peaks_diag(H.H, H_params,spin,flags.retain_states);				
 			};
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
@@ -92,10 +94,12 @@ int main(int argc, char* argv[]){
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector<std::pair<double,std::vector<double>>> spin_spect_init;
 			if(H_params.cmplx == true){
-				spin_spect_init=spin_peaks(H.cmplx,H_params,spin,flags.retain_states);
+				Hamiltonian<cx_double> H(H_params);
+				spin_spect_init=spin_peaks(H.H,H_params,spin,flags.retain_states);
 			}
 			else{
-				spin_spect_init=spin_peaks(H.real,H_params,spin,flags.retain_states);
+				Hamiltonian<double> H(H_params);
+				spin_spect_init=spin_peaks(H.H,H_params,spin,flags.retain_states);
 			}
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
@@ -120,10 +124,12 @@ int main(int argc, char* argv[]){
 			auto tic = std::chrono::high_resolution_clock::now();
 			std::vector<std::pair< double,std::vector<double> > > two_p_corr;
 			if(H_params.cmplx==true){
-				two_p_corr = two_p_Correlator(H.cmplx,spin,H_params.num_of_sites);
+				Hamiltonian<cx_double> H(H_params);
+				two_p_corr = two_p_Correlator(H.H,spin,H_params.num_of_sites);
 			}
 			else{
-				two_p_corr = two_p_Correlator(H.real,spin,H_params.num_of_sites);
+				Hamiltonian<double> H(H_params);
+				two_p_corr = two_p_Correlator(H.H,spin,H_params.num_of_sites);
 			}
 			auto toc = std::chrono::high_resolution_clock::now();
 			auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
@@ -137,10 +143,12 @@ int main(int argc, char* argv[]){
 		auto tic = std::chrono::high_resolution_clock::now();
 		std::vector<std::pair< double, std::vector<double> > > SS_corr;
 		if(H_params.cmplx==true){
-			SS_corr=spin_spin_Correlator(H.cmplx,H_params.num_of_sites);
+			Hamiltonian<cx_double> H(H_params);
+			SS_corr=spin_spin_Correlator(H.H,H_params.num_of_sites);
 		}
 		else{
-			spin_spin_Correlator(H.real,H_params.num_of_sites);
+			Hamiltonian<double> H(H_params);
+			spin_spin_Correlator(H.H,H_params.num_of_sites);
 		}
 		auto toc = std::chrono::high_resolution_clock::now();
 		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
@@ -152,10 +160,12 @@ int main(int argc, char* argv[]){
 		auto tic = std::chrono::high_resolution_clock::now();
 		std::pair< double, std::vector<double> > El_dens;
 		if(H_params.cmplx){
-			El_dens =Electron_Density(H.cmplx,H_params.num_of_sites); 
+			Hamiltonian<cx_double> H(H_params);
+			El_dens =Electron_Density(H.H,H_params.num_of_sites); 
 		}
 		else{
-			 El_dens=Electron_Density(H.real,H_params.num_of_sites);
+			Hamiltonian<double> H(H_params);
+			El_dens=Electron_Density(H.H,H_params.num_of_sites);
 		}
 		auto toc = std::chrono::high_resolution_clock::now();
 		auto time=std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic);
