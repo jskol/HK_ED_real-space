@@ -49,101 +49,24 @@ libcommute::expression<C, int, std::string> gen_Ham(
     return H;
 }
 
-
-libcommute::static_indices::expr_real<int,std::string> H_interaction_real(
-	const struct Hamiltonian_params& params
-    )
-{
-	cx_double one(1.,0.);
-	libcommute::static_indices::expr_real<int,std::string> H_int;
-    if(params.interaction_U==0){
-        std::cout << "No interactions\n";
-    }
-    else{
-        std::cout << "Adding terms created by interactions U=" << params.interaction_U << std::endl;
-        if(params.Hubbard){
-			std::cout<< "Doing Hubbard model\n";
-			for(int spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
-					for(int site_up=0; site_up < params.num_of_sites; site_up++){
-						H_int += 0.5*params.interaction_U
-						*c_dag(site_up,spins_set[spin_ind])
-						*c(site_up,spins_set[spin_ind])
-						*c_dag(site_up,spins_set[(spin_ind+1)%(int)spins_set.size()])
-						*c(site_up,spins_set[(spin_ind+1)%(int)spins_set.size()]);
-
-						H_int += -0.5*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
-					}
-			}
-        }
-        else{
-            std::cout<< "Doing real-space HK model\n";
-			/* This part needs additional phasing 
-				if the unit cell index (ind/2) is even
-				the additional phase appearse at the 2nd site
-				if the unit cell index is odd 
-				the additional phase appearse at the 1st site 
-			*/
-			if(!params.pbc){
-				for(auto spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
-					for(int site_up=0; site_up < params.num_of_sites; site_up++){
-						for(int Delta=-site_up; Delta < params.num_of_sites-site_up; Delta++){
-							for(int site_do=0; site_do < params.num_of_sites; site_do++){
-								if(site_do-Delta >= 0 && site_do-Delta < params.num_of_sites){
-
-									int ind2{site_up+Delta};
-									int ind4{site_do-Delta};
-									H_int += (0.5*params.interaction_U/params.num_of_sites)
-									*c_dag(site_up,spins_set[spin_ind])
-									*c(ind2,spins_set[spin_ind])
-									*c_dag(site_do,spins_set[(spin_ind+1)%(int)spins_set.size()])
-									*c(ind4,spins_set[(spin_ind+1)%(int)spins_set.size()]);						
-									
-									/*	OLD IMPLEMENTATION !!!
-										H_int += (0.5*params.interaction_U/params.num_of_sites)
-										*c_dag(site_up,spins_set[spin_ind])
-										*c((site_up+Delta+params.num_of_sites)%params.num_of_sites,spins_set[spin_ind])
-										*c_dag((site_do+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()])
-										*c((site_do-Delta+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()]);
-									*/
-								}
-								
-							}
-						}
-						H_int += -0.5*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
-					}
-				}
-			}
-			else{
-				std::cout<< "Assuming pbc\n";
-				for(auto spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
-					for(auto site_up=0; site_up < params.num_of_sites; site_up++){
-						for(auto Delta=-site_up; Delta < params.num_of_sites-site_up; Delta++){
-							for(auto site_do=0; site_do < params.num_of_sites; site_do++){
-								H_int += (0.5*params.interaction_U/params.num_of_sites)
-								*c_dag(site_up,spins_set[spin_ind])
-								*c((site_up+Delta+params.num_of_sites)%params.num_of_sites,spins_set[spin_ind])
-								*c_dag((site_do+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()])
-								*c((site_do-Delta+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()]);
-							}
-						}
-						/* Add chemical potential */
-						H_int += -0.5*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
-					}
-				}
-			}		
-		}
-	}
-	return H_int;
-}
+/*
+Helper function for realtive phase factors in H-K model, which arise from
+non-orthogonality of the primitive shifts (ie. zig-zag lattice)
+*/
+template<typename T>
+struct is_complex_t : public std::false_type {};
+template<>
+struct is_complex_t<cx_double> : public std::true_type {};
 
 
 
-cx_double inetraction_phase_factor(const struct Hamiltonian_params& params, const int site_up, const int site_do, const int Delta){
+cx_double interaction_phase_factor(const struct Hamiltonian_params& params, const int site_up, const int site_do, const int Delta,cx_double one){
 	// Sanity checks
 	assert(site_up <params.num_of_sites);
 	assert(site_do < params.num_of_sites);
+	cx_double phase{1.};
 
-	cx_double phase(1.,0.);
+	
 	if( (((int)site_up / 2)%2 ==0 && (int)site_up%2 == 1) || 
 		(((int)site_up / 2)%2 ==1 && (int)site_up%2 == 0) 
 	){ phase = phase*exp(-I*0.5*params.k);}
@@ -161,22 +84,27 @@ cx_double inetraction_phase_factor(const struct Hamiltonian_params& params, cons
 	if( (((int)ind4/2)%2 ==0 && (int)ind4%2 == 1) || 
 		(((int)ind4/2)%2 ==1 && (int)ind4%2 == 0) 
 	){ phase = phase*exp(I*0.5*params.k);}
+
 	return phase;
+}
+double interaction_phase_factor(const struct Hamiltonian_params& params, const int site_up, const int site_do, const int Delta,double one){
+	return 1.; // Ugly solution for the complex phase recasting issue
 }
 
 
-libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
+template<typename T>
+libcommute::expression<T,int,std::string> H_interaction(
 	const struct Hamiltonian_params& params
     )
 {
-	cx_double one(1.,0.);
-	libcommute::static_indices::expr_complex<int,std::string> H_int;
+	T one{1.};
+	libcommute::expression<T,int,std::string> H_int;
     if(params.interaction_U==0){
         std::cout << "No interactions\n";
     }
     else{
         std::cout << "Adding terms created by interactions U=" << params.interaction_U << std::endl;
-        if(params.Hubbard){
+        if(params.Hubbard){ // Hubbard is allways real
 			std::cout<< "Doing Hubbard model\n";
 			for(int spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
 					for(int site_up=0; site_up < params.num_of_sites; site_up++){
@@ -190,6 +118,7 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 			}
         }
         else{
+			
             std::cout<< "Doing real-space HK model\n";
 			/* This part needs additional phasing 
 				if the unit cell index (ind/2) is even
@@ -197,6 +126,7 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 				if the unit cell index is odd 
 				the additional phase appearse at the 1st site 
 			*/
+
 			if(!params.pbc){
 				for(auto spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
 					for(int site_up=0; site_up < params.num_of_sites; site_up++){
@@ -204,16 +134,17 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 							for(int site_do=0; site_do < params.num_of_sites; site_do++){
 								if(site_do-Delta >= 0 && site_do-Delta < params.num_of_sites){
 									/* Calculating the overall phase */								
-									cx_double phase=inetraction_phase_factor(params,site_up,site_do,Delta);
-									H_int = H_int + (0.5*params.interaction_U/params.num_of_sites)*phase
+									T phase=interaction_phase_factor(params,site_up,site_do,Delta,one);
+									H_int= H_int+
+										(0.5*params.interaction_U/params.num_of_sites)*phase
 									    *c_dag(site_up,spins_set[spin_ind])
 									    *c((site_up+Delta+params.num_of_sites)%params.num_of_sites,spins_set[spin_ind])
 									    *c_dag((site_do+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()])
 									    *c((site_do-Delta+params.num_of_sites)%params.num_of_sites,spins_set[(spin_ind+1)%(int)spins_set.size()]);
-								}
+
+									}
 							}
 						}
-						H_int = H_int -0.5*one*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
 					}
 				}
 			}
@@ -223,20 +154,24 @@ libcommute::static_indices::expr_complex<int,std::string> H_interaction_cmplx(
 					for(auto site_up=0; site_up < params.num_of_sites; site_up++){
 						for(auto Delta=-site_up; Delta < params.num_of_sites-site_up; Delta++){
 							for(auto site_do=0; site_do < params.num_of_sites; site_do++){
-								cx_double phase=inetraction_phase_factor(params,site_up,site_do,Delta);
-								H_int =H_int +(0.5*params.interaction_U/params.num_of_sites)*phase
+								T phase=interaction_phase_factor(params,site_up,site_do,Delta,one);
+								H_int = H_int + (0.5*params.interaction_U/params.num_of_sites)*phase
 									*c_dag(site_up,spins_set[spin_ind])
 									*c(site_up+Delta,spins_set[spin_ind])
 									*c_dag(site_do,spins_set[(spin_ind+1)%(int)spins_set.size()])
 									*c(site_do-Delta,spins_set[(spin_ind+1)%(int)spins_set.size()]);
-
-							}
+								}
 						}
-						/* Add chemical potential */
-						H_int = H_int-0.5*one*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
 					}
 				}
 			}		
+
+			/* Add chemical potential */
+			for(auto spin_ind=0; spin_ind< (int)spins_set.size(); spin_ind++){
+				for(auto site_up=0; site_up < params.num_of_sites; site_up++){
+					H_int = H_int -0.5*one*params.interaction_U*c_dag(site_up,spins_set[spin_ind])*c(site_up,spins_set[spin_ind]);
+				}
+			}
 		}
 	}
 	return H_int;
